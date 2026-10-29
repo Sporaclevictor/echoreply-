@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head>
+<title>Admin | Echoreply</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head><body>
+<div class="wrap">
+  <header class="nav">
+    <a class="logo" href="/admin">Echoreply admin</a>
+    <nav><a class="btn sm" href="/dashboard">My dashboard</a><button class="btn sm" id="logout">Sign out</button></nav>
+  </header>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <main id="view" aria-live="polite"></main>
+</div>
+<script src="/js/config.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/admin.js"></script>
+<script type="module" src="/js/firebase-init.js"></script>
+</body></html>

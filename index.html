@@ -97,20 +97,17 @@ th{font-weight:700;color:var(--muted)}
 </head>
 <body>
 <div id="root"></div>
-
-<script type="module">
-/* =====================================================================
-   SETTINGS: fill these in (they are public identifiers, not secrets)
-   ===================================================================== */
+<script>
 const CONFIG = {
-  // URL of your WhatsApp worker, no trailing slash. Example: https://echoreply-worker.onrender.com
-  API_BASE: 'https://YOUR-WORKER-URL',
-  // Firebase console > Project settings > General > Your apps > Web app
-  firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR-PROJECT.firebaseapp.com',
-    projectId: 'YOUR-PROJECT-ID',
-    appId: 'YOUR_APP_ID'
+  workerUrl: "", // leave empty for now, we add Cloudflare worker later
+  firebaseConfig: {
+    apiKey: "AIzaSyBWjd_9WhqO6IaAgT_EBxIPDj54-zBRmEs",
+    authDomain: "echoreply-87d81.firebaseapp.com",
+    projectId: "echoreply-87d81",
+    storageBucket: "echoreply-87d81.firebasestorage.app",
+    messagingSenderId: "423050648217",
+    appId: "1:423050648217:web:853e4137488e4c86217608",
+    measurementId: "G-WE9NV26DHS"
   }
 };
 /* ===================================================================== */

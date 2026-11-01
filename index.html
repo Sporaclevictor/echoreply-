@@ -459,13 +459,41 @@ function admin() {
   }
 
   async function overview() {
-    const s = await api('/admin/stats');
-    const stat = (label, v) => h('div', { class: 'panel' }, h('p', { class: 'muted small', style: 'margin:0' }, label), h('div', { class: 'stat' }, String(v ?? '-')));
+  const stat = (label, v) => h('div', { class: 'panel' }, h('p', { class: 'muted small' }, label), h('h2', {}, String(v ?? 0)));
+  try {
+    const db = firebase.firestore();
+    const usersSnap = await db.collection("users").get();
+    const all = usersSnap.docs.map(d => d.data());
+    const paySnap = await db.collection("payments").get().catch(()=>({docs:[]}));
+    const pays = paySnap.docs.map(d => d.data());
+    const s = {
+      users: all.length,
+      premium: all.filter(u => u.plan === 'pro' || u.premium).length,
+      banned: all.filter(u => u.banned).length,
+      connected: all.filter(u => u.whatsapp_connected).length,
+      pending_payments: pays.filter(p => p.status === 'pending').length,
+      revenue: pays.filter(p => p.status === 'confirmed')
+    };
     view.replaceChildren(h('div', { class: 'grid' },
-      stat('Users', s.users), stat('Premium users', s.premium), stat('Banned', s.banned),
-      stat('WhatsApp connected', s.connected), stat('Pending payments', s.pending_payments), stat('Replies today (UTC)', s.replies_today),
-      stat('Confirmed revenue', Array.isArray(s.revenue) ? (s.revenue.length ? s.revenue.map((r) => money(r.total, r.currency)).join(', ') : '0') : s.revenue)));
-  }
+      stat('Users', s.users),
+      stat('Premium users', s.premium),
+      stat('Banned', s.banned),
+      stat('WhatsApp connected', s.connected),
+      stat('Pending payments', s.pending_payments),
+      stat('Confirmed revenue', Array.isArray(s.revenue) ? s.revenue.length : s.revenue)
+    ));
+    return;
+  } catch(e){ console.log(e); }
+  const s = await api('/admin/stats');
+  view.replaceChildren(h('div', { class: 'grid' },
+    stat('Users', s.users),
+    stat('Premium users', s.premium),
+    stat('Banned', s.banned),
+    stat('WhatsApp connected', s.connected),
+    stat('Pending payments', s.pending_payments),
+    stat('Confirmed revenue', Array.isArray(s.revenue) ? s.revenue.length ? s.revenue.length : 0 : s.revenue)
+  ));
+}
 
   async function users(q = '') {
     const rows = asList(await api('/admin/users?q=' + encodeURIComponent(q)), 'users', 'data', 'results');
